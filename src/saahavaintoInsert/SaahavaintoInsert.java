@@ -25,7 +25,7 @@ import saahavaintoInsert.domain.Place;
 import saahavaintoInsert.domain.User;
 import saahavaintoInsert.domain.Utilities;
 
-
+//testi
 
 /**
  *
