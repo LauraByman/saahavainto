@@ -24,6 +24,9 @@ public class User {
         this.lastName = lastName;
     }
     
+    public int getId() {
+        return this.id;
+    }
     
     public String getUsername() {
         return username;

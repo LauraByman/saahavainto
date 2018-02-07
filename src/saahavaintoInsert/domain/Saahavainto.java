@@ -27,14 +27,14 @@ public class Saahavainto {
     private int windSpeed;
     private Havainto havainto;
     
-    public Saahavainto(int ID, Calendar dateTime,  Place place, double temperature, int windSpeed, Havainto havainto, User user) {
+    public Saahavainto(int ID, Calendar dateTime,  Place place, User user, double temperature, int windSpeed, Havainto havainto) {
         this.ID = ID;
         this.dateTime = dateTime;
         this.place = place;
+        this.user = user;
         this.temperature = temperature;
         this.windSpeed = windSpeed;
         this.havainto = havainto;
-        this.user = user;
     }
 
 
@@ -84,7 +84,7 @@ public class Saahavainto {
         this.havainto = havainto;
     }
     
-    public String formatDateTime(Calendar dateTime){  //printtaa pvm+aika halutussa muodossa
+    public String getDateTimeAsString(){  //printtaa pvm+aika halutussa muodossa
         
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String dateTimeString = dateFormat.format(this.dateTime.getTime());
@@ -94,7 +94,7 @@ public class Saahavainto {
     
        @Override
     public String toString() {
-        return "Säähavainto: " + "ID:" + ID + ", Time:" + formatDateTime(dateTime) + ", Place:" + place.getPlaceAsString() + ", User:" + user + ", Temperature:" + temperature + ", Windpeed:" + windSpeed + ", Havainto:" + havainto.getHavaintoAsString() + "\n";
+        return "Säähavainto: " + "ID:" + ID + ", Time:" + getDateTimeAsString() + ", Place:" + place.getPlaceAsString() + ", User:" + user + ", Temperature:" + temperature + ", Windpeed:" + windSpeed + ", Havainto:" + havainto.getHavaintoAsString() + "\n";
     }
 
     

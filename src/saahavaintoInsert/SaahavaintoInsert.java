@@ -24,6 +24,7 @@ import saahavaintoInsert.domain.Havainto;
 import saahavaintoInsert.domain.Place;
 import saahavaintoInsert.domain.User;
 import saahavaintoInsert.domain.Utilities;
+import saahavaintoInsert.domain.SqlInterace;
 
 //testataan vielä
 
@@ -37,16 +38,13 @@ public class SaahavaintoInsert {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+                  
 
-      
-        //luo haluttu määrä säähavainto-olioita ja lisää arraylistiin.
+        //yhdistetään sql:ään saahavainto ja users tableihin
         
-        List<Saahavainto> saaHavainnot = new ArrayList<>(); //nämä korvataan SQL tableilla
-        List<User> users = new ArrayList<>();   //
-        users.add(new User(1, "pasiPouta", "Pasi", "Pouta"));
-        users.add(new User(2, "sinikkaSumu", "Sinikka", "Sumu"));
-        users.add(new User(3, "essiEsimerkki", "Essi", "Esimerkki"));
-         
+        com.mysql.jdbc.Connection connToSaahavainto = (com.mysql.jdbc.Connection) SqlInterace.connectToSqlTable("saahavainto");
+        com.mysql.jdbc.Connection connToUsers = (com.mysql.jdbc.Connection) SqlInterace.connectToSqlTable("users");
+        
          
         for(int i = 0; i < 30; i++){
             
@@ -56,21 +54,27 @@ public class SaahavaintoInsert {
             Place place = Utilities.getRandomPlace();
             
             Random rand = new Random();
-            User user = users.get(rand.nextInt(users.size()));
+            User user = SqlInterace.getRandomUser(connToUsers);  //haetaan random user users sql tablesta
             double temperature = Utilities.getRandomTemperature(currentdateTime);
             int windSpeed = Utilities.getRandomWindspeed();
             Havainto havainto = Utilities.getRandomHavainto(currentdateTime, temperature, windSpeed);
             
-            Saahavainto uusiHavainto = new Saahavainto(ID, currentdateTime, place, temperature, windSpeed, havainto, user);
-            saaHavainnot.add(uusiHavainto);
+            Saahavainto currentHavainto = new Saahavainto(ID, currentdateTime, place, user, temperature, windSpeed, havainto);
+            
+            //Säähavaintojen lisäys sql:ään
+            
+            SqlInterace.insertRandomDataToSaahavainto(currentHavainto, connToSaahavainto);
             
             
         }
         
-        System.out.println(saaHavainnot);
+        
+        
+      
+        }
     }
     
     
 
     
-}
+
